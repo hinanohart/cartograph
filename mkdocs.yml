@@ -27,8 +27,12 @@ nav:
   - Reference:
       - Adapters: reference/adapters.md
       - Functors: reference/functors.md
-  - Decisions: decisions/
-  - Peer reviews: peer_reviews/
+  - Decisions:
+      - Overview: decisions/README.md
+      - "ADR-0001 HYBRID-S": decisions/ADR-0001-hybrid-s.md
+  - Peer reviews:
+      - Overview: peer_reviews/README.md
+      - "v0.1.0a0": peer_reviews/0.1.0a0.md
 
 plugins:
   - search

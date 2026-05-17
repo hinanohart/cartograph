@@ -56,8 +56,8 @@ construct-validity risk or paying abstraction tax for nonexistent plugins.
 ## Honest scope
 
 5-6 months on one maintainer is realistic; 3-4 months is optimistic. The
-README does not claim "complete" or "permanent" — per
-[feedback_no-permanent-claim](../../README.md#non-claims), avoid that vocabulary.
+README's `## Non-claims` section explicitly disclaims "complete" and
+"permanent" framing; ADRs and release notes follow the same vocabulary.
 
 ## Consequences
 
