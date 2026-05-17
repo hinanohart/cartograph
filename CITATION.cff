@@ -33,3 +33,29 @@ references:
     title: "Guattari's four-functor chaosmosis and the supplementation/surpassing of materialism"
     year: 2025
     url: "https://www.academia.edu/128192779/"
+  - type: article
+    authors:
+      - family-names: Crowe
+        given-names: Simon
+    title: "Micropolitics of a Recommender System: Machine Learning and the Machinic Unconscious"
+    journal: "Spheres: Journal for Digital Cultures"
+    year: 2019
+    url: "https://spheres-journal.org/contribution/micropolitics-of-a-recommender-system-machine-learning-and-the-machinic-unconscious/"
+  - type: article
+    authors:
+      - family-names: Carriere
+        given-names: Mathieu
+      - family-names: Chazal
+        given-names: Frederic
+      - family-names: Ike
+        given-names: Yuichi
+      - family-names: Lacombe
+        given-names: Theo
+      - family-names: Royer
+        given-names: Martin
+      - family-names: Umeda
+        given-names: Yuhei
+    title: "A General Neural Network Architecture for Persistence Diagrams and Graph Classification"
+    year: 2020
+    url: "https://arxiv.org/abs/2010.08356"
+    notes: "Differentiable PH; basis for Phase 1b F-functor and Phase 2 CFlow bridge."

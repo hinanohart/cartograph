@@ -1,16 +1,27 @@
 """Phi (Machinic Phyla): SAE feature graph + circuit decomposition.
 
 Guattari frames Phi as the abstract-machinic plane that conditions which
-concrete assemblages can form. We operationalise it as the directed graph of
-sparse-autoencoder features that co-activate above threshold on a corpus.
+concrete assemblages can form. We operationalise it in two layers:
 
-Phase 1a scope:
-- adjacency built from co-activation (binary above quantile threshold)
-- centrality + community structure as scalar metrics
-- graph artifact returned for downstream visualisation
+- **Phase 1a (this release)**: the directed graph of sparse-autoencoder
+  features that co-activate above threshold on a corpus. Returns adjacency
+  + scalar centrality metrics. This alone is *not* the full Phi: it captures
+  co-activation but not the directed *machinic* causation between feature
+  groups.
+- **Phase 1b (planned)**: circuit decomposition layered on top of the
+  co-activation graph, following the Anthropic Transformer Circuits line
+  (Elhage et al. 2021-2024) and using attribution-graph methods to recover
+  directed feature→feature pathways. Without this layer Phi is incomplete
+  as a Guattarian construct; see ADR-0001 §Weakness mitigations (W2).
+
+Phase 1a scope (what this file actually implements):
+- adjacency built from co-activation (Jaccard above quantile threshold)
+- edge density + mean degree as scalar metrics
+- adjacency artifact returned for downstream visualisation
 
 References:
 - Bricken et al. 2023 (Anthropic, SAE feature dictionaries)
+- Elhage et al. 2021-2024 (Transformer Circuits) — Phase 1b decomposition basis
 - He et al. 2024 (Llama Scope, arXiv:2410.20526) — adopt-decision in ADR Phase 1a mid
 """
 

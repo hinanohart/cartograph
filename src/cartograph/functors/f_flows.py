@@ -7,6 +7,13 @@ ADR-0001) via giotto-tda or ripser.
 Why stub now: declaring the type surface in 1a keeps the four-functor public
 API stable from day one; users who try to call F get a directed error message
 instead of silent absence.
+
+References (Phase 1b implementation basis):
+- Lipman et al. 2022 (Flow Matching velocity-field formulation)
+- giotto-tda / ripser (production PH backends)
+- Carriere et al. 2020 "A General Neural Network Architecture for Persistence
+  Diagrams and Graph Classification" (arXiv:2010.08356) — differentiable PH,
+  the bridge to Phase 2 CFlow's `compute_differentiable` path.
 """
 
 from __future__ import annotations

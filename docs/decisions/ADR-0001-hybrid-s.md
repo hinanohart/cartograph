@@ -47,8 +47,8 @@ construct-validity risk or paying abstraction tax for nonexistent plugins.
 | W | Mitigation |
 |---|---|
 | W1 | PH scale: Phase 1b restricted to landmark/witness complexes |
-| W2 | SAE is now widely public (Llama Scope arXiv:2410.20526); planned `adapters/llama_scope.py` |
-| W3 | T construct-validity gate: at least one Guattari-semantic-exclusive prediction must be identified before Phase 1b release |
+| W2 | SAE is now widely public (Llama Scope arXiv:2410.20526); planned `adapters/llama_scope.py`. Φ's circuit-decomposition layer (directed feature→feature pathways, Transformer Circuits line) is a Phase 1b deliverable; without it Phase 1a Φ is a co-activation graph only and not the full Guattarian construct. |
+| W3 | T construct-validity gate: at least one Guattari-semantic-exclusive prediction must be identified before Phase 1b release. Encoded as `tests/integration/test_t_semantic_exclusivity.py` (added in Phase 1b) asserting one observation reproducible by T but not by plain attention rollout. |
 | W4 | Four-axis overrun: structural fix via 1a/1b stage split |
 | W5 | Phase 1→2 bridge: seam + H3 GO/NO-GO |
 | W6 | SOTA churn: H1 quarterly + ModelAdapter contains swap cost |
@@ -67,3 +67,48 @@ README does not claim "complete" or "permanent" — per
   via `register_adapter("...")` decorator import.
 - Phase 2 work can begin in a sibling repo without renaming this one if H3 is
   GO; the bridge seam keeps the import surface stable either way.
+
+## Residual issues (10) — carry-over from architecture decision
+
+Each item names a forthcoming ADR (or in-place commit) and the trigger that
+forces the decision. References elsewhere in the repo (`residual #N`) point
+to the numbers in this list.
+
+1. **Llama Scope SAE adapter adoption** (`adapters/llama_scope.py`). Trigger:
+   Phase 1a mid-point review; decide whether to bundle He et al. 2024
+   (arXiv:2410.20526) or keep SAE-Lens as the sole upstream.
+2. **paper/ co-located vs separate repository**. Trigger: start of Phase 1c;
+   decide whether `paper/main.tex` stays in this repo or moves to
+   `cartograph-paper`.
+3. **`plugins/` monorepo opening via `entry_points`**. Trigger: end of Phase 1b
+   *only if* ≥2 external adapters have been requested; otherwise stay with the
+   `register_adapter` decorator.
+4. **Visualizer Protocol-isation**. Trigger: end of Phase 1b once all four
+   functors' artifact shapes are frozen.
+5. **Phase 2 CFlow: same repo vs sibling repo (H3)**. Trigger: end of Phase
+   1c; recorded as `docs/decisions/ADR-XXXX-cflow-bridge.md`. Must include the
+   mathematical-differentiation-vs-Stochastic-Interpolants section (see
+   `bridge/differentiable.py` docstring).
+6. **Stewards transition trigger conditions**. Trigger: any of the three
+   `GOVERNANCE.md` triggers fires; ADR records the slate.
+7. **Construct-validity peer slate of 3**. Trigger: within month 1 of
+   Phase 1a; outreach log lives in `docs/peer_reviews/README.md`.
+8. **arXiv preprint timing (mid Phase 1c vs post-α)**. Trigger: Phase 1c
+   start; the call point sits between "preprint during 1c so reviewers see
+   it before α tag" and "post-α so we can cite the published tag".
+9. **T Guattari-semantic-exclusive prediction (W3 gate)**. Trigger: before
+   `v0.2.0` release; at least one prediction must be identified that is
+   not reproducible by plain attention rollout. The Phase 1b release gate
+   adds `tests/integration/test_t_semantic_exclusivity.py` asserting one
+   such observation.
+10. **`experiments/_wip/cartograph-phaseN-<slug>/` failure-museum operating
+    rule**. Already documented in `experiments/_wip/README.md`; tracked here
+    so the rule has a referent inside ADR-0001.
+
+## Default base model (Phase 1a)
+
+`HFTransformerAdapter` defaults to `gpt2`, not the originally-considered
+Llama-3-8B. Reason: GPT-2 small downloads in seconds, runs CI without GPU,
+and ships with SAE-Lens releases (`gpt2-small-res-jb`). Llama-3-8B is gated
+on HF and 16 GB+, which would break the `integration.yml` budget. Migration
+to Llama-3-8B (or Llama Scope) is the H1 quarterly call.
