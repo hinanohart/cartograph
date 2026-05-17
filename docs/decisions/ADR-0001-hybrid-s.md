@@ -100,7 +100,9 @@ to the numbers in this list.
    `v0.2.0` release; at least one prediction must be identified that is
    not reproducible by plain attention rollout. The Phase 1b release gate
    adds `tests/integration/test_t_semantic_exclusivity.py` asserting one
-   such observation.
+   such observation, **and a gate #7 must be added to
+   `scripts/verify_release.py` at Phase 1b kickoff** so the test cannot be
+   silently skipped.
 10. **`experiments/_wip/cartograph-phaseN-<slug>/` failure-museum operating
     rule**. Already documented in `experiments/_wip/README.md`; tracked here
     so the rule has a referent inside ADR-0001.
