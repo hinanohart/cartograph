@@ -39,7 +39,7 @@ dependencies = [
     # CVE: scikit-learn <1.5.0 leaks sensitive data through unsupervised
     # transformers. Pulled in transitively by sae-lens / pymoo; pinning
     # the lower bound forces resolution onto a patched line.
-    "scikit-learn>=1.5.0",
+    "scikit-learn>=1.8.0",
 ]
 
 [project.optional-dependencies]
