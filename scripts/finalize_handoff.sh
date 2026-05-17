@@ -56,8 +56,9 @@ lines into ~/.claude/projects/-home-runza/memory/MEMORY.md by hand under
 the 📋 ログ / TODO section. (You can also use your editor of choice;
 the file is plain markdown.)
 
-  - [project_guattari-cartograph-arch-2026-05-17.md](project_guattari-cartograph-arch-2026-05-17.md) — Cartograph OSS HYBRID-S 確定アーキ。3 commit + post-compact fix commit で v0.1.0a0 scaffold は SHIP-READY (local only)
-  - [_log_cartograph_2026-05-17_post_compact_fix.md](_log_cartograph_2026-05-17_post_compact_fix.md) — 3 並行 + critic で CRITICAL 3 / MAJOR 6 / MINOR 6 を自動修正、verify_release 6/6 真 PASS
+  - [project_guattari-cartograph-arch-2026-05-17.md](project_guattari-cartograph-arch-2026-05-17.md) — Cartograph OSS HYBRID-S 確定アーキ。5 commit + 2 post-compact fix commit で v0.1.0a0 scaffold は SHIP-READY (local only)
+  - [_log_cartograph_2026-05-17_post_compact_fix.md](_log_cartograph_2026-05-17_post_compact_fix.md) — 1 回目 audit: CRITICAL 3 / MAJOR 6 / MINOR 6 自動修正
+  - [_log_cartograph_2026-05-17_post_compact_audit2.md](_log_cartograph_2026-05-17_post_compact_audit2.md) — 2 回目 audit: CRITICAL 3 / MAJOR 6 / MINOR 8 自動修正、verify_release 6/6 真 PASS (pytest 30/30)
 
 NOTE
 if confirm "open MEMORY.md in \$EDITOR now"; then
