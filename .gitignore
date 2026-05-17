@@ -1,6 +1,8 @@
 # uv
 .venv/
-uv.lock
+# uv.lock is committed: cartograph ships a CLI (`cartograph`) and a
+# reproducibility test pinning a golden Phi adjacency hash, so a frozen
+# resolved environment matters more than downstream resolver freedom.
 
 # python
 __pycache__/
