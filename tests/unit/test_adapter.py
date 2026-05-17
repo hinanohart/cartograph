@@ -42,3 +42,9 @@ def test_requires_fails_loud_on_missing() -> None:
     with pytest.raises(MissingCapabilityError) as exc:
         _DummyAdapter().requires(Capability.ATTENTION)
     assert "attention" in str(exc.value)
+
+
+def test_hf_transformer_conforms_to_protocol() -> None:
+    from cartograph.adapters import HFTransformerAdapter
+
+    assert isinstance(HFTransformerAdapter(), ModelAdapter)

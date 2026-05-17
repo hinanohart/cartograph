@@ -48,3 +48,23 @@ def test_u_hypervolume_nonneg() -> None:
     objectives = {"o1": lambda x: float(x), "o2": lambda x: float(-x)}
     result = UniversesFunctor(objectives).compute(_ScalarAdapter(), [0.0, 1.0, 2.0])
     assert result.metrics["hypervolume"] >= 0.0
+
+
+def test_u_rejects_nan_inf() -> None:
+    objectives = {"o1": lambda x: float(x), "o2": lambda _: float("nan")}
+    with pytest.raises(ValueError, match="NaN"):
+        UniversesFunctor(objectives).compute(_ScalarAdapter(), [0.0, 1.0])
+
+
+def test_u_single_point_is_pareto() -> None:
+    objectives = {"o1": lambda x: float(x), "o2": lambda x: float(-x)}
+    result = UniversesFunctor(objectives).compute(_ScalarAdapter(), [3.14])
+    assert result.metrics["n_pareto_optimal"] == 1
+    assert result.metrics["spread"] == 0.0
+
+
+def test_u_all_equal_keeps_all() -> None:
+    objectives = {"o1": lambda _: 1.0, "o2": lambda _: 1.0}
+    result = UniversesFunctor(objectives).compute(_ScalarAdapter(), [0.0, 1.0, 2.0])
+    # tied points are mutually non-dominated, so all 3 stay on the frontier.
+    assert result.metrics["n_pareto_optimal"] == 3

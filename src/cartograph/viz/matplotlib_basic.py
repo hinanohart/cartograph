@@ -16,6 +16,9 @@ from cartograph.core.report import CartographicProfile
 def plot_profile(profile: CartographicProfile, out_path: str | Path) -> Path:
     """Render `profile` to `out_path` (.png). Returns the resolved path."""
 
+    import matplotlib
+
+    matplotlib.use("Agg", force=False)
     import matplotlib.pyplot as plt
 
     fig, axes = plt.subplots(2, 2, figsize=(10, 10))
@@ -26,7 +29,7 @@ def plot_profile(profile: CartographicProfile, out_path: str | Path) -> Path:
     _placeholder(axes[1, 0], "F (Flows) — Phase 1b")
     _placeholder(axes[1, 1], "T (Territories) — Phase 1b")
 
-    resolved = Path(out_path).resolve()
+    resolved = Path(out_path).expanduser().resolve()
     resolved.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
     fig.savefig(resolved, dpi=120)

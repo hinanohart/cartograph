@@ -4,11 +4,16 @@ from __future__ import annotations
 
 import pytest
 
-import cartograph.adapters  # noqa: F401 (side effect: registers built-in adapters)
-from cartograph.core.registry import REGISTRY, load_adapter, register_adapter
+from cartograph.core.registry import (
+    REGISTRY,
+    load_adapter,
+    register_adapter,
+    register_builtin_adapters,
+)
 
 
 def test_hf_transformer_is_registered() -> None:
+    register_builtin_adapters()
     assert "hf-transformer" in REGISTRY
 
 

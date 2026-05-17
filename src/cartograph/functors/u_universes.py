@@ -72,7 +72,15 @@ class UniversesFunctor:
 
     @staticmethod
     def _pareto_mask(values: FloatArray) -> BoolArray:
-        """Minimisation Pareto: row i is kept iff no other row j dominates it."""
+        """Minimisation Pareto: row i is kept iff no other row j dominates it.
+
+        Rejects NaN/Inf rather than silently passing them through `<=` whose
+        NaN semantics would mark every row as non-comparable and yield an
+        all-keep mask (silent wrong answer).
+        """
+
+        if not np.isfinite(values).all():
+            raise ValueError("objective values contain NaN or Inf; Pareto comparison is undefined")
         n = values.shape[0]
         keep = np.ones(n, dtype=bool)
         for i in range(n):

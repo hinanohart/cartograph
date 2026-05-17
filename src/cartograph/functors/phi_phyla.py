@@ -39,16 +39,31 @@ FloatArray = npt.NDArray[np.floating[Any]]
 
 
 class PhiPhylaFunctor:
-    """Compute the machinic-phyla graph of an adapter on a corpus."""
+    """Compute the machinic-phyla graph of an adapter on a corpus.
+
+    Threshold semantics: when `coactivation_threshold` is given, a feature is
+    counted as active iff its scalar activation strictly exceeds the absolute
+    threshold (cross-batch comparable, recommended for cross-paper numbers).
+    When `coactivation_threshold is None` (default), the threshold is the
+    `coactivation_quantile`-th percentile *within the batch*, which keeps
+    every batch's "top 1%" but is **not comparable across corpora or batches
+    of different size**. Always pin the absolute threshold for publication.
+    """
 
     name = "Phi"
     required: frozenset[Capability] = frozenset({Capability.HIDDEN_STATES, Capability.SAE_FEATURES})
 
-    def __init__(self, layer: int, coactivation_quantile: float = 0.99) -> None:
+    def __init__(
+        self,
+        layer: int,
+        coactivation_quantile: float = 0.99,
+        coactivation_threshold: float | None = None,
+    ) -> None:
         if not 0.0 < coactivation_quantile < 1.0:
             raise ValueError("coactivation_quantile must lie in (0, 1)")
         self.layer = layer
         self.coactivation_quantile = coactivation_quantile
+        self.coactivation_threshold = coactivation_threshold
 
     def compute(self, adapter: ModelAdapter, inputs: Any) -> FunctorResult:
         adapter.requires(*self.required)
@@ -59,12 +74,17 @@ class PhiPhylaFunctor:
             "edge_density": float(adjacency.mean()),
             "mean_degree": float(adjacency.sum(axis=1).mean()),
         }
+        thr_note = (
+            f"abs={self.coactivation_threshold}"
+            if self.coactivation_threshold is not None
+            else f"q={self.coactivation_quantile}(batch-relative)"
+        )
         return FunctorResult(
             functor=self.name,
             adapter=adapter.name,
             metrics=metrics,
             artifacts={"adjacency": adjacency},
-            notes=f"layer={self.layer}, q={self.coactivation_quantile}",
+            notes=f"layer={self.layer}, {thr_note}",
         )
 
     def compute_differentiable(self, adapter: ModelAdapter, inputs: Any) -> Any | None:
@@ -85,7 +105,12 @@ class PhiPhylaFunctor:
     def _coactivation_adjacency(self, features: FloatArray) -> FloatArray:
         if features.ndim != 2:
             raise ValueError(f"features must be 2D (n_samples, n_features); got {features.shape}")
-        threshold = np.quantile(features, self.coactivation_quantile, axis=0)
+        if self.coactivation_threshold is None:
+            threshold: FloatArray | float = np.quantile(
+                features, self.coactivation_quantile, axis=0
+            )
+        else:
+            threshold = float(self.coactivation_threshold)
         active = (features > threshold).astype(np.float32)
         co = active.T @ active
         np.fill_diagonal(co, 0.0)

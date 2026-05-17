@@ -17,3 +17,14 @@ whose log is missing.
   value-domain selection
 
 Outreach happens within month 1 of Phase 1a per ADR-0001 residual issue #7.
+
+## Outreach deadline
+
+Phase 1a begins on the release date of `v0.1.0a0` (2026-05-17). Month-1
+deadline for first-contact attempts on all three reviewer slate slots is
+**2026-06-17**. Status of each contact (no-reply / declined / accepted) is
+appended below; the entry must exist before `v0.2.0` tagging.
+
+- [ ] philosophy peer first contact (deadline 2026-06-17)
+- [ ] mech-interp peer first contact (deadline 2026-06-17)
+- [ ] TDA peer first contact (deadline 2026-06-17)

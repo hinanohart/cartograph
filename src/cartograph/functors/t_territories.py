@@ -5,6 +5,13 @@ rollout reframed as territorial closure, with a parallel Mamba SSM head (Ali
 et al. ACL 2025 'Hidden Attention of Mamba') to satisfy the W3 construct-
 validity gate: T must yield at least one prediction that is *not* reducible
 to plain attention visualisation.
+
+Phase 1b deliverables (see ADR-0001 residual #9):
+- `tests/integration/test_t_semantic_exclusivity.py` asserting one
+  Guattari-semantic-exclusive observation.
+- A new gate (#7) inside `scripts/verify_release.py` so the test cannot be
+  silently skipped — currently the GATES list has six entries; the seventh
+  goes between `peer review log` and main return.
 """
 
 from __future__ import annotations

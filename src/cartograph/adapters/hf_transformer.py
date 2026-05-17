@@ -9,11 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from cartograph.core.adapter import (
-    Capability,
-    MissingCapabilityError,
-    ModelAdapter,
-)
+from cartograph.core.adapter import Capability, MissingCapabilityError
 from cartograph.core.registry import register_adapter
 
 
@@ -90,6 +86,3 @@ class HFTransformerAdapter:
         self._ensure_sae()
         assert self._sae is not None
         return self._sae.encode(hidden).detach().cpu().numpy()
-
-
-_: ModelAdapter = HFTransformerAdapter()

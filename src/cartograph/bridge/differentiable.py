@@ -15,6 +15,16 @@ variant, CFlow collapses into a rebrand of known generative-modelling
 machinery. The H3 ADR (forthcoming as `ADR-XXXX-cflow-bridge.md`) must
 contain this differentiation as a required section, and the Phase 2
 release gate must include it as a blocker.
+
+When H3 is GO, this file becomes the home of:
+
+- `sample_velocity(model, x, t)` — interpolant velocity at intermediate t
+- `chaosmotic_refrain_loss(v_pred, v_target)` — the loss differentiator
+- `ode_solver_step(model, x, t, dt)` — integration step for CFlow sampling
+- `bridge_backends()` — runtime dispatch into torch / jax implementations
+
+`is_bridge_ready()` flips to `True` *only* after all four exist and the
+H3 ADR's "CFlow vs Stochastic Interpolants" section is written.
 """
 
 from __future__ import annotations

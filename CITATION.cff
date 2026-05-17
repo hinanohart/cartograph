@@ -59,3 +59,57 @@ references:
     year: 2020
     url: "https://arxiv.org/abs/2010.08356"
     notes: "Differentiable PH; basis for Phase 1b F-functor and Phase 2 CFlow bridge."
+  - type: article
+    authors:
+      - family-names: Albergo
+        given-names: Michael S.
+      - family-names: Vanden-Eijnden
+        given-names: Eric
+    title: "Stochastic Interpolants: A Unifying Framework for Flows and Diffusions"
+    year: 2023
+    url: "https://arxiv.org/abs/2406.07507"
+    notes: "Required Phase 2 differentiation reference; see bridge/differentiable.py blocker."
+  - type: article
+    authors:
+      - family-names: He
+        given-names: Zhengfu
+      - family-names: Shu
+        given-names: Wentao
+      - family-names: Ge
+        given-names: Xuyang
+      - family-names: Chen
+        given-names: Lingjie
+      - family-names: Wang
+        given-names: Junxuan
+      - family-names: Zhou
+        given-names: Yunhua
+      - family-names: Liu
+        given-names: Frances
+      - family-names: Guo
+        given-names: Qipeng
+      - family-names: Huang
+        given-names: Xuanjing
+      - family-names: Wu
+        given-names: Zuxuan
+      - family-names: Jiang
+        given-names: Yu-Gang
+      - family-names: Qiu
+        given-names: Xipeng
+    title: "Llama Scope: Extracting Millions of Features from Llama-3.1-8B with Sparse Autoencoders"
+    year: 2024
+    url: "https://arxiv.org/abs/2410.20526"
+    notes: "Candidate upstream for adapters/llama_scope.py; ADR-0001 residual #1."
+  - type: conference-paper
+    authors:
+      - family-names: Ali
+        given-names: Ameen
+      - family-names: Zimerman
+        given-names: Itamar
+      - family-names: Wolf
+        given-names: Lior
+    title: "The Hidden Attention of Mamba Models"
+    conference:
+      name: "ACL 2025"
+    year: 2025
+    url: "https://aclanthology.org/2025.acl-long.76/"
+    notes: "W3 mitigation basis: SSM head paralleling attention rollout in T."

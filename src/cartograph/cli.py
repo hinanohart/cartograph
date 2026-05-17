@@ -8,9 +8,8 @@ from __future__ import annotations
 import argparse
 import sys
 
-import cartograph.adapters  # noqa: F401 (side effect: registers built-in adapters)
 from cartograph import __version__
-from cartograph.core.registry import REGISTRY
+from cartograph.core.registry import REGISTRY, register_builtin_adapters
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -22,6 +21,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.cmd == "list-adapters":
+        register_builtin_adapters()
         for name in sorted(REGISTRY):
             print(name)
         return 0

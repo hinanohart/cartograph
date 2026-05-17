@@ -1,12 +1,3 @@
-from cartograph.core.adapter import Capability, ModelAdapter
-from cartograph.core.registry import REGISTRY, register_adapter
-from cartograph.core.report import CartographicProfile, FunctorResult
-
-__all__ = [
-    "REGISTRY",
-    "Capability",
-    "CartographicProfile",
-    "FunctorResult",
-    "ModelAdapter",
-    "register_adapter",
-]
+# Submodule-level re-exports kept minimal; the public API lives in
+# `cartograph` (top-level). Importers needing the underlying symbols should
+# reach into `cartograph.core.adapter` / `.registry` / `.report` directly.

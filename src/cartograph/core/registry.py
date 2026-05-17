@@ -34,3 +34,15 @@ def load_adapter(name: str, **kwargs: object) -> ModelAdapter:
     if name not in REGISTRY:
         raise KeyError(f"unknown adapter '{name}'. registered: {sorted(REGISTRY)}")
     return REGISTRY[name](**kwargs)
+
+
+def register_builtin_adapters() -> None:
+    """Import built-in adapter modules so their decorators fire.
+
+    Idempotent: re-import of an already-loaded module is a no-op in Python,
+    and `register_adapter` raises only on *new* duplicate registration.
+    Call this from any entry point that needs the registry populated
+    (CLI, tests) instead of relying on side-effect imports.
+    """
+
+    import cartograph.adapters  # noqa: F401

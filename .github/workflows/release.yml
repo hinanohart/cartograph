@@ -16,6 +16,8 @@ jobs:
       - uses: astral-sh/setup-uv@v3
       - name: Install
         run: uv sync --all-extras --dev
+      - name: Regenerate paper figures (must match committed sha256 manifest)
+        run: uv run python scripts/make_paper_figures.py --out paper/figures
       - name: Run verify_release.py (six-item checklist)
         run: uv run python scripts/verify_release.py --tag "${GITHUB_REF_NAME}"
       - name: Build distributions
