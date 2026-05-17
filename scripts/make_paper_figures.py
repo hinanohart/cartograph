@@ -25,11 +25,13 @@ def render_phi_heatmap(out: Path, seed: int = 42) -> Path:
     np.fill_diagonal(adj, 0.0)
 
     fig, ax = plt.subplots(figsize=(4, 4))
-    ax.imshow(adj, aspect="auto")
+    ax.imshow(adj, aspect="equal", vmin=0.0, vmax=1.0)
     ax.set_title("Phi: SAE co-activation (synthetic)")
     out.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
-    fig.savefig(out, dpi=120)
+    # `Software: None` strips the matplotlib version stamp from PNG metadata,
+    # so byte-identical sha256 survives matplotlib patch upgrades.
+    fig.savefig(out, dpi=120, metadata={"Software": None})
     plt.close(fig)
     return out
 

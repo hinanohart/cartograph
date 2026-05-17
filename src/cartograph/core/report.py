@@ -24,7 +24,13 @@ class FunctorResult:
 
 @dataclass(frozen=True)
 class CartographicProfile:
-    """Aggregated four-functor diagnosis of a foundation model."""
+    """Aggregated four-functor diagnosis of a foundation model.
+
+    `frozen=True` prevents rebinding the dataclass attributes, but the
+    `results` dict itself remains mutable — `profile.results["X"] = ...`
+    succeeds. Treat it as read-only; deep immutability would need a
+    `MappingProxyType` wrapper which is Phase 1b polish.
+    """
 
     adapter: str
     results: dict[str, FunctorResult]
@@ -37,4 +43,6 @@ class CartographicProfile:
         return self.results[name]
 
     def is_complete(self) -> bool:
+        """Phase 1a always False (F and T are stubs); becomes meaningful in 1b."""
+
         return {"F", "Phi", "T", "U"}.issubset(self.results)

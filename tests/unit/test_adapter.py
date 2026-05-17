@@ -48,3 +48,31 @@ def test_hf_transformer_conforms_to_protocol() -> None:
     from cartograph.adapters import HFTransformerAdapter
 
     assert isinstance(HFTransformerAdapter(), ModelAdapter)
+
+
+def test_hf_transformer_sae_capability_gated_on_release() -> None:
+    """Without sae_release, the adapter must NOT advertise SAE_FEATURES.
+
+    Otherwise `requires(SAE_FEATURES)` PASSes and the call dives into
+    `sae_encode` which raises a plain RuntimeError instead of the typed
+    MissingCapabilityError the Protocol contract promises.
+    """
+
+    from cartograph.adapters import HFTransformerAdapter
+
+    bare = HFTransformerAdapter()
+    assert Capability.SAE_FEATURES not in bare.capabilities
+    with pytest.raises(MissingCapabilityError):
+        bare.requires(Capability.SAE_FEATURES)
+
+    armed = HFTransformerAdapter(sae_release="dummy")
+    assert Capability.SAE_FEATURES in armed.capabilities
+    armed.requires(Capability.SAE_FEATURES)
+
+
+def test_hf_transformer_capabilities_is_frozenset() -> None:
+    """Protocol type hint is a frozenset; runtime must agree."""
+
+    from cartograph.adapters import HFTransformerAdapter
+
+    assert isinstance(HFTransformerAdapter().capabilities, frozenset)

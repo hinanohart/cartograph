@@ -61,6 +61,8 @@ class PhiPhylaFunctor:
     ) -> None:
         if not 0.0 < coactivation_quantile < 1.0:
             raise ValueError("coactivation_quantile must lie in (0, 1)")
+        if coactivation_threshold is not None and not np.isfinite(coactivation_threshold):
+            raise ValueError("coactivation_threshold must be a finite number")
         self.layer = layer
         self.coactivation_quantile = coactivation_quantile
         self.coactivation_threshold = coactivation_threshold
@@ -105,6 +107,11 @@ class PhiPhylaFunctor:
     def _coactivation_adjacency(self, features: FloatArray) -> FloatArray:
         if features.ndim != 2:
             raise ValueError(f"features must be 2D (n_samples, n_features); got {features.shape}")
+        # Symmetric to UniversesFunctor._pareto_mask: NaN/Inf silently produce
+        # a plausible-but-wrong zero-edge graph that downstream readers cannot
+        # tell from a genuine "feature has no co-activations" result.
+        if not np.isfinite(features).all():
+            raise ValueError("features contain NaN or Inf; co-activation is undefined")
         if self.coactivation_threshold is None:
             threshold: FloatArray | float = np.quantile(
                 features, self.coactivation_quantile, axis=0

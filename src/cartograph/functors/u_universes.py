@@ -45,9 +45,14 @@ class UniversesFunctor:
 
     def compute(self, adapter: ModelAdapter, inputs: Iterable[Any]) -> FunctorResult:
         adapter.requires(*self.required)
+        # Materialise to allow a length check before iterating; a zero-length
+        # frontier returns a 1D array whose shape[1] crashes downstream viz.
+        materialised = list(inputs)
+        if not materialised:
+            raise ValueError("UniversesFunctor.compute requires at least one input")
         objective_names = sorted(self.objectives)
         rows: list[list[float]] = []
-        for x in inputs:
+        for x in materialised:
             out = adapter.forward(x)
             rows.append([float(self.objectives[k](out)) for k in objective_names])
         values = np.asarray(rows, dtype=np.float64)
@@ -94,12 +99,16 @@ class UniversesFunctor:
 
     @staticmethod
     def _hypervolume(frontier: FloatArray) -> float:
+        # Minimisation HV with reference point `max + 1` per objective. The
+        # earlier hand-rolled box-sum double-counted overlapping orthants
+        # ({(0,1),(1,0)} → 4 instead of 3); pymoo's WFG implementation is
+        # the canonical, peer-tested computation.
         if frontier.size == 0:
             return 0.0
+        from pymoo.indicators.hv import HV
+
         ref = frontier.max(axis=0) + 1.0
-        # Crude box-dominated approximation; pymoo handles SOTA when available.
-        diffs = np.clip(ref - frontier, 0.0, None)
-        return float(diffs.prod(axis=1).sum())
+        return float(HV(ref_point=ref).do(frontier))
 
     @staticmethod
     def _spread(frontier: FloatArray) -> float:

@@ -33,13 +33,18 @@ dependencies = [
     "torch>=2.2",
     "transformers>=4.40",
     "sae-lens>=3.0",
-    "transformer-lens>=2.0",
     "pymoo>=0.6",
     "numpy>=1.26",
     "matplotlib>=3.8",
 ]
 
 [project.optional-dependencies]
+# transformer-lens is required only by the Phase 1b mech-interp adapters
+# (residual issue #1 in ADR-0001); keep it out of the core install so
+# `pip install cartograph` stays lean.
+interp = [
+    "transformer-lens>=2.0",
+]
 homology = [
     "giotto-tda>=0.6",
     "ripser>=0.6",
@@ -48,7 +53,7 @@ mamba = [
     "mamba-ssm>=2.0",
 ]
 all = [
-    "cartograph[homology,mamba]",
+    "cartograph[interp,homology,mamba]",
 ]
 
 [project.scripts]

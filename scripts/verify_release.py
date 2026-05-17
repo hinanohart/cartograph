@@ -46,17 +46,22 @@ def gate_smoke_tests(_tag: str) -> None:
 
 
 def gate_capability_matrix(_tag: str) -> None:
-    # Phase 1a: parse docs/reference/adapters.md once it exists; until then
-    # this gate just asserts that every registered adapter is referenced.
+    # Phase 1a check: every registered adapter must be mentioned in
+    # docs/reference/adapters.md as a backtick-delimited identifier (so a
+    # paragraph that happens to contain the substring does not pass). A
+    # full structural diff against `adapter.capabilities` is Phase 1b.
     docs = REPO_ROOT / "docs" / "reference" / "adapters.md"
     if not docs.exists():
         raise GateFailure("missing docs/reference/adapters.md")
     text = docs.read_text(encoding="utf-8")
-    from cartograph.core.registry import REGISTRY  # late import
+    from cartograph.core.registry import REGISTRY, register_builtin_adapters
 
+    register_builtin_adapters()
     for name in REGISTRY:
-        if name not in text:
-            raise GateFailure(f"docs/reference/adapters.md missing adapter '{name}'")
+        if not re.search(rf"`{re.escape(name)}`", text):
+            raise GateFailure(
+                f"docs/reference/adapters.md missing adapter '`{name}`' as a code token"
+            )
 
 
 def gate_paper_figures(_tag: str) -> None:
@@ -87,10 +92,12 @@ def gate_changelog(tag: str) -> None:
     changelog = REPO_ROOT / "CHANGELOG.md"
     if not changelog.exists():
         raise GateFailure("CHANGELOG.md missing")
-    head = changelog.read_text(encoding="utf-8").splitlines()[:30]
+    head = "\n".join(changelog.read_text(encoding="utf-8").splitlines()[:30])
     bare = _strip_v(tag)
-    if not any(bare in line for line in head):
-        raise GateFailure(f"CHANGELOG.md head does not mention tag {bare}")
+    # Bracket-anchored so tag "v0.1.0" does NOT pass against a head whose top
+    # entry is "## [0.1.0a0]" (substring match falsely accepts stale CHANGELOGs).
+    if not re.search(rf"^##\s+\[{re.escape(bare)}\](?:\s|$)", head, re.MULTILINE):
+        raise GateFailure(f"CHANGELOG.md head has no '## [{bare}]' section")
 
 
 def gate_citation(tag: str) -> None:

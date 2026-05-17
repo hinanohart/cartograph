@@ -49,6 +49,38 @@ def test_phi_metrics_shape() -> None:
     assert result.artifacts["adjacency"].shape == (8, 8)
 
 
+def test_phi_adjacency_invariants() -> None:
+    """Jaccard adjacency must be symmetric, zero-diagonal, [0,1]-bounded.
+
+    Defends against silent regressions in `_coactivation_adjacency` that
+    only-shape tests cannot catch (e.g. dropping `fill_diagonal`, swapping
+    `co.T` for `co`, multiplying by `denom` instead of dividing).
+    """
+
+    rng = np.random.default_rng(1)
+    features = rng.random((64, 8))
+    adj = (
+        PhiPhylaFunctor(layer=0, coactivation_quantile=0.9)
+        .compute(_FakeAdapter(features), inputs="x")
+        .artifacts["adjacency"]
+    )
+    assert (adj.diagonal() == 0).all()
+    assert np.allclose(adj, adj.T)
+    assert ((adj >= 0) & (adj <= 1)).all()
+
+
+def test_phi_rejects_nan_features() -> None:
+    features = np.zeros((4, 3))
+    features[0, 0] = np.nan
+    with pytest.raises(ValueError, match="NaN or Inf"):
+        PhiPhylaFunctor(layer=0).compute(_FakeAdapter(features), inputs="x")
+
+
+def test_phi_rejects_nonfinite_threshold() -> None:
+    with pytest.raises(ValueError, match="finite"):
+        PhiPhylaFunctor(layer=0, coactivation_threshold=float("nan"))
+
+
 def test_phi_differentiable_returns_none_in_phase_1a() -> None:
     functor = PhiPhylaFunctor(layer=0)
     assert functor.compute_differentiable(_FakeAdapter(np.zeros((4, 2))), inputs="x") is None

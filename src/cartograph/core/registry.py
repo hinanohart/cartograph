@@ -39,10 +39,11 @@ def load_adapter(name: str, **kwargs: object) -> ModelAdapter:
 def register_builtin_adapters() -> None:
     """Import built-in adapter modules so their decorators fire.
 
-    Idempotent: re-import of an already-loaded module is a no-op in Python,
-    and `register_adapter` raises only on *new* duplicate registration.
-    Call this from any entry point that needs the registry populated
-    (CLI, tests) instead of relying on side-effect imports.
+    Safe to call repeatedly within a process: the second call is a no-op
+    because `import cartograph.adapters` hits the `sys.modules` cache and
+    the decorators do not re-run. **Not** re-entrant after `REGISTRY.clear()`
+    in tests — clear and then `importlib.reload(cartograph.adapters)` if a
+    test really needs a fresh registration cycle.
     """
 
     import cartograph.adapters  # noqa: F401

@@ -50,6 +50,18 @@ def test_u_hypervolume_nonneg() -> None:
     assert result.metrics["hypervolume"] >= 0.0
 
 
+def test_u_hypervolume_matches_known_geometry() -> None:
+    """L-shaped 2D frontier {(0,1),(1,0)} with ref (2,2) has HV = 3.0.
+
+    Hand-rolled box-sum gives 4.0 by double-counting the overlap; pymoo
+    returns the true area.
+    """
+
+    objectives = {"o1": lambda x: float(x[0]), "o2": lambda x: float(x[1])}
+    result = UniversesFunctor(objectives).compute(_ScalarAdapter(), [(0.0, 1.0), (1.0, 0.0)])
+    assert result.metrics["hypervolume"] == pytest.approx(3.0)
+
+
 def test_u_rejects_nan_inf() -> None:
     objectives = {"o1": lambda x: float(x), "o2": lambda _: float("nan")}
     with pytest.raises(ValueError, match="NaN"):
@@ -61,6 +73,12 @@ def test_u_single_point_is_pareto() -> None:
     result = UniversesFunctor(objectives).compute(_ScalarAdapter(), [3.14])
     assert result.metrics["n_pareto_optimal"] == 1
     assert result.metrics["spread"] == 0.0
+
+
+def test_u_rejects_empty_inputs() -> None:
+    objectives = {"o1": lambda x: float(x), "o2": lambda x: float(-x)}
+    with pytest.raises(ValueError, match="at least one input"):
+        UniversesFunctor(objectives).compute(_ScalarAdapter(), [])
 
 
 def test_u_all_equal_keeps_all() -> None:

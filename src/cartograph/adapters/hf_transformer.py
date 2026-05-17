@@ -22,16 +22,20 @@ class HFTransformerAdapter:
     """
 
     name = "hf-transformer"
-    capabilities: frozenset[Capability] = frozenset(
-        {
-            Capability.HIDDEN_STATES,
-            Capability.ATTENTION,
-            Capability.SAE_FEATURES,
-            Capability.LOSS_LANDSCAPE,
-        }
-    )
 
     def __init__(self, model_id: str = "gpt2", sae_release: str | None = None) -> None:
+        # SAE_FEATURES is gated on sae_release so `requires(SAE_FEATURES)` fails
+        # loud rather than letting the call dive into `_sae_activations` and
+        # raise an opaque RuntimeError from `sae_encode` instead of the typed
+        # MissingCapabilityError that the Protocol contract promises.
+        caps: set[Capability] = {
+            Capability.HIDDEN_STATES,
+            Capability.ATTENTION,
+            Capability.LOSS_LANDSCAPE,
+        }
+        if sae_release is not None:
+            caps.add(Capability.SAE_FEATURES)
+        self.capabilities: frozenset[Capability] = frozenset(caps)
         self.model_id = model_id
         self.sae_release = sae_release
         self._model: Any | None = None

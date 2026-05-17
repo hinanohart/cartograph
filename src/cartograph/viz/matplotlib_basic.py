@@ -45,7 +45,9 @@ def _draw_phi(ax: Any, result: Any) -> None:
     if adj is None:
         _placeholder(ax, "Phi — no adjacency artifact")
         return
-    ax.imshow(adj, aspect="auto")
+    # Jaccard is bounded [0,1] and the adjacency is symmetric, so equal aspect
+    # + pinned vmin/vmax keeps cross-model heatmaps visually comparable.
+    ax.imshow(adj, aspect="equal", vmin=0.0, vmax=1.0)
     ax.set_title("Phi: SAE co-activation (Jaccard)")
 
 
