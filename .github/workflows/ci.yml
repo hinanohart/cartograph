@@ -24,7 +24,11 @@ jobs:
       - name: Set up Python ${{ matrix.python }}
         run: uv python install ${{ matrix.python }}
       - name: Install
-        run: uv sync --all-extras --dev
+        # mamba extra is excluded: mamba-ssm requires a CUDA toolchain at
+        # build time (declares torch as a runtime dep but not a build dep),
+        # which the GitHub-hosted runner cannot satisfy. Phase 1a does not
+        # exercise the mamba code path anyway (the adapter is a stub).
+        run: uv sync --extra interp --extra homology --dev
       - name: Lint
         run: uv run ruff check src tests
       - name: Format check

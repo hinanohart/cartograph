@@ -15,7 +15,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
       - name: Install
-        run: uv sync --all-extras --dev
+        # See ci.yml comment: mamba-ssm cannot build on hosted runners. The
+        # `mamba` extra is an opt-in install for end-users with the right
+        # CUDA toolchain; release.yml itself does not need it to verify or
+        # publish the sdist/wheel.
+        run: uv sync --extra interp --extra homology --dev
       - name: Regenerate paper figures (must match committed sha256 manifest)
         run: uv run python scripts/make_paper_figures.py --out paper/figures
       - name: Run verify_release.py (six-item checklist)

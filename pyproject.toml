@@ -52,8 +52,11 @@ homology = [
 mamba = [
     "mamba-ssm>=2.0",
 ]
+# `all` deliberately omits mamba: mamba-ssm requires a CUDA toolchain at
+# install time and cannot be resolved on most non-GPU machines. Users who
+# want it must install `cartograph[mamba]` explicitly on a CUDA-capable host.
 all = [
-    "cartograph[interp,homology,mamba]",
+    "cartograph[interp,homology]",
 ]
 
 [project.scripts]

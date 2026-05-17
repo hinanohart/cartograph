@@ -387,7 +387,6 @@ dependencies = [
 [package.optional-dependencies]
 all = [
     { name = "giotto-tda" },
-    { name = "mamba-ssm" },
     { name = "ripser" },
     { name = "transformer-lens" },
 ]
@@ -414,7 +413,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "cartograph", extras = ["interp", "homology", "mamba"], marker = "extra == 'all'" },
+    { name = "cartograph", extras = ["interp", "homology"], marker = "extra == 'all'" },
     { name = "giotto-tda", marker = "extra == 'homology'", specifier = ">=0.6" },
     { name = "mamba-ssm", marker = "extra == 'mamba'", specifier = ">=2.0" },
     { name = "matplotlib", specifier = ">=3.8" },
