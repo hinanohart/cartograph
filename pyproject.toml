@@ -36,6 +36,10 @@ dependencies = [
     "pymoo>=0.6",
     "numpy>=1.26",
     "matplotlib>=3.8",
+    # CVE: scikit-learn <1.5.0 leaks sensitive data through unsupervised
+    # transformers. Pulled in transitively by sae-lens / pymoo; pinning
+    # the lower bound forces resolution onto a patched line.
+    "scikit-learn>=1.5.0",
 ]
 
 [project.optional-dependencies]
@@ -45,10 +49,12 @@ dependencies = [
 interp = [
     "transformer-lens>=2.0",
 ]
-homology = [
-    "giotto-tda>=0.6",
-    "ripser>=0.6",
-]
+# The `homology` extra (giotto-tda + ripser) is deferred to Phase 1b:
+# giotto-tda 0.6 only ships wheels through cp310 and constrains
+# scikit-learn < 1.5, which (a) blocks the cartograph install on Python
+# 3.11/3.12 wheels and (b) drags in a known CVE (scikit-learn data leak).
+# Re-add this extra in Phase 1b once a newer giotto-tda wheel is
+# available, alongside the actual T-functor TDA implementation.
 mamba = [
     "mamba-ssm>=2.0",
 ]
@@ -56,7 +62,7 @@ mamba = [
 # install time and cannot be resolved on most non-GPU machines. Users who
 # want it must install `cartograph[mamba]` explicitly on a CUDA-capable host.
 all = [
-    "cartograph[interp,homology]",
+    "cartograph[interp]",
 ]
 
 [project.scripts]

@@ -16,8 +16,7 @@ jobs:
         with:
           enable-cache: true
       - name: Install
-        # See ci.yml comment: mamba-ssm cannot build on hosted runners and
-        # Phase 1a integration tests do not exercise the mamba code path.
-        run: uv sync --extra interp --extra homology --dev
+        # See ci.yml install-step comment for the mamba + homology rationale.
+        run: uv sync --extra interp --dev
       - name: Integration tests
         run: uv run pytest tests/integration -q

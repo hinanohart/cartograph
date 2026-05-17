@@ -6,6 +6,23 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.1.0a0] — 2026-05-17
 
+### Fixed (post-publish dependency + CI)
+- `uv.lock` is now committed (was previously in `.gitignore`); without it
+  setup-uv could not cache and the golden-hash reproducibility test had no
+  pinned environment to honour.
+- CI / integration / release workflows now `uv sync --extra interp --dev`
+  instead of `--all-extras`. The `mamba` extra needs CUDA at build time
+  and the (now-deferred) `homology` extra pinned a vulnerable
+  scikit-learn line — both are unused in Phase 1a.
+- `homology` optional extra removed for Phase 1a: giotto-tda 0.6 ships
+  wheels only through cp310 and constrains scikit-learn `<1.5.0`
+  (CVE: sensitive data leakage in unsupervised transformers). Will be
+  re-introduced in Phase 1b alongside the T-functor TDA implementation.
+- Direct `scikit-learn>=1.5.0` floor added to `dependencies` so the
+  transitive resolution lands on a patched line (now 1.8.x).
+- `all` extra slimmed to `interp` only (mamba stays opt-in, homology
+  deferred).
+
 ### Fixed (second-pass audit)
 - `HFTransformerAdapter` now declares `SAE_FEATURES` only when `sae_release`
   is provided, so `adapter.requires(SAE_FEATURES)` fails loud as the Protocol
