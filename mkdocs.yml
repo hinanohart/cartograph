@@ -1,0 +1,49 @@
+site_name: Cartograph
+site_description: Diagnose foundation models on Guattari's four schizoanalytic functors
+site_url: https://hinanohart.github.io/cartograph/
+repo_url: https://github.com/hinanohart/cartograph
+repo_name: hinanohart/cartograph
+edit_uri: edit/main/docs/
+strict: true
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+
+nav:
+  - Home: index.md
+  - Tutorials:
+      - Quickstart (GPT-2): tutorials/quickstart.md
+      - Guattari for engineers: guattari_for_engineers.md
+  - Reference:
+      - Adapters: reference/adapters.md
+      - Functors: reference/functors.md
+  - Decisions: decisions/
+  - Peer reviews: peer_reviews/
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_root_heading: true
+            docstring_style: google
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true

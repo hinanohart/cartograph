@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+title: "Cartograph: schizoanalytic diagnosis of foundation models"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - given-names: hinanohart
+    email: runzaisongpu95@gmail.com
+repository-code: "https://github.com/hinanohart/cartograph"
+url: "https://hinanohart.github.io/cartograph"
+license: Apache-2.0
+version: 0.1.0a0
+date-released: "2026-05-17"
+keywords:
+  - interpretability
+  - foundation-models
+  - schizoanalysis
+  - guattari
+  - sparse-autoencoders
+references:
+  - type: book
+    authors:
+      - family-names: Guattari
+        given-names: Félix
+    title: "Schizoanalytic Cartographies"
+    publisher:
+      name: Athlone
+    year: 2013
+    notes: "Original French 1989."
+  - type: article
+    authors:
+      - family-names: Segovia
+        given-names: Carlos A.
+    title: "Guattari's four-functor chaosmosis and the supplementation/surpassing of materialism"
+    year: 2025
+    url: "https://www.academia.edu/128192779/"

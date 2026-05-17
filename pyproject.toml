@@ -1,0 +1,110 @@
+[project]
+name = "cartograph"
+version = "0.1.0a0"
+description = "Diagnostic OSS for evaluating foundation models on Guattari's four schizoanalytic functors (Flows, Machinic Phyla, Existential Territories, Universes of Reference)"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "hinanohart", email = "runzaisongpu95@gmail.com" }
+]
+maintainers = [
+    { name = "hinanohart", email = "runzaisongpu95@gmail.com" }
+]
+requires-python = ">=3.11"
+keywords = [
+    "interpretability",
+    "foundation-models",
+    "schizoanalysis",
+    "guattari",
+    "sparse-autoencoders",
+    "persistent-homology",
+    "mechanistic-interpretability",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "torch>=2.2",
+    "transformers>=4.40",
+    "sae-lens>=3.0",
+    "transformer-lens>=2.0",
+    "pymoo>=0.6",
+    "numpy>=1.26",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+homology = [
+    "giotto-tda>=0.6",
+    "ripser>=0.6",
+]
+mamba = [
+    "mamba-ssm>=2.0",
+]
+all = [
+    "cartograph[homology,mamba]",
+]
+
+[project.scripts]
+cartograph = "cartograph.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/hinanohart/cartograph"
+Documentation = "https://hinanohart.github.io/cartograph"
+Repository = "https://github.com/hinanohart/cartograph"
+Issues = "https://github.com/hinanohart/cartograph/issues"
+Changelog = "https://github.com/hinanohart/cartograph/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.25",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.4,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+
+[[tool.mypy.overrides]]
+module = [
+    "sae_lens.*",
+    "transformer_lens.*",
+    "transformers.*",
+    "pymoo.*",
+    "matplotlib.*",
+    "ripser.*",
+    "gtda.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+markers = [
+    "slow: integration tests that require model downloads",
+    "reproducibility: byte-identical reproducibility tests",
+]

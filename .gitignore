@@ -1,0 +1,34 @@
+# uv
+.venv/
+uv.lock
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# coverage
+.coverage
+coverage.xml
+htmlcov/
+
+# docs build
+site/
+
+# editor
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+
+# experiments WIP (R8 failure museum: keep code, drop heavy artefacts)
+experiments/_wip/*/data/
+experiments/_wip/*/checkpoints/
