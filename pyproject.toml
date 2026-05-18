@@ -3,7 +3,7 @@ name = "cartograph"
 version = "0.1.0a0"
 description = "Diagnostic OSS for evaluating foundation models on Guattari's four schizoanalytic functors (Flows, Machinic Phyla, Existential Territories, Universes of Reference)"
 readme = "README.md"
-license = { text = "Apache-2.0" }
+license = { text = "MIT" }
 authors = [
     { name = "hinanohart", email = "runzaisongpu95@gmail.com" }
 ]

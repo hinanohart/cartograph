@@ -68,7 +68,7 @@ four-functor reading.
 
 ## License
 
-[Apache-2.0](LICENSE).
+[MIT](LICENSE).
 
 ## Acknowledgements
 
