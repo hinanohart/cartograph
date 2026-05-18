@@ -17,10 +17,12 @@ four functors operationalise that question from *Schizoanalytic Cartographies*
 (1989) without rebranding existing techniques. Construct validity is gated on
 external peer review at every minor release.
 
+> ⚠️ **PyPI name notice**: A package named `cartograph` already exists on PyPI from a different author. **Do NOT** run `pip install cartograph` or `uv add cartograph`. This project is distributed via GitHub source only until a unique PyPI name is chosen. See https://github.com/hinanohart/cartograph#install for the correct install method.
+
 ## Install
 
 ```bash
-uv add cartograph
+uv add cartograph  # do not run, see above
 ```
 
 Optional extras: `cartograph[homology]` (giotto-tda + ripser, Phase 1b),

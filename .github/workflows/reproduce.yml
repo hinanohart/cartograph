@@ -1,8 +1,6 @@
 name: reproduce
 
 on:
-  schedule:
-    - cron: "0 4 * * *"  # nightly 04:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -21,7 +19,7 @@ jobs:
       - name: Regenerate paper figures
         run: uv run python scripts/make_paper_figures.py --out paper/figures
       - name: Upload regenerated figures
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: paper-figures-${{ github.run_id }}
           path: paper/figures
