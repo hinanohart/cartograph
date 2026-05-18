@@ -24,13 +24,10 @@ jobs:
         run: uv run python scripts/verify_release.py --tag "${GITHUB_REF_NAME}"
       - name: Build distributions
         run: uv build
-      # Trusted Publisher pending — flip on after PyPI config
-      # To activate: configure the PyPI trusted publisher at https://docs.pypi.org/trusted-publishers/
-      # for repo hinanohart/cartograph, workflow file "release.yml", environment unset.
-      # Then remove the continue-on-error line below.
+      # Disabled until PyPI name is finalized (audit 2026-05-18: name squat detected)
       - name: Publish to PyPI (trusted)
+        if: false
         uses: pypa/gh-action-pypi-publish@release/v1
-        continue-on-error: true  # Trusted Publisher pending — flip on after PyPI config
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
         with:
