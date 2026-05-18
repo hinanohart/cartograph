@@ -56,7 +56,7 @@ interp = [
 # Re-add this extra in Phase 1b once a newer giotto-tda wheel is
 # available, alongside the actual T-functor TDA implementation.
 mamba = [
-    "mamba-ssm>=2.0",
+    "mamba-ssm>=2.3.2.post1",
 ]
 # `all` deliberately omits mamba: mamba-ssm requires a CUDA toolchain at
 # install time and cannot be resolved on most non-GPU machines. Users who
