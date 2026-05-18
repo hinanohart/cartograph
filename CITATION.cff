@@ -7,7 +7,7 @@ authors:
     email: runzaisongpu95@gmail.com
 repository-code: "https://github.com/hinanohart/cartograph"
 url: "https://hinanohart.github.io/cartograph"
-license: Apache-2.0
+license: MIT
 version: 0.1.0a0
 date-released: "2026-05-17"
 keywords:
