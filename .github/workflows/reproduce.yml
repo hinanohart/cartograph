@@ -3,6 +3,9 @@ name: reproduce
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   reproduce-paper-figures:
     runs-on: ubuntu-latest
