@@ -47,7 +47,7 @@ dependencies = [
 # (residual issue #1 in ADR-0001); keep it out of the core install so
 # `pip install cartograph` stays lean.
 interp = [
-    "transformer-lens>=2.0",
+    "transformer-lens>=3.2.1",
 ]
 # The `homology` extra (giotto-tda + ripser) is deferred to Phase 1b:
 # giotto-tda 0.6 only ships wheels through cp310 and constrains
